@@ -1,40 +1,28 @@
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import {
-    MenuFoldOutlined,
-    MenuUnfoldOutlined,
-    // UploadOutlined,
-    // UserOutlined,
-    // VideoCameraOutlined,
-} from '@ant-design/icons';
-import { Button, Layout, Menu, theme } from 'antd';
+import { Layout } from 'antd';
 import CommonAside from '../components/commonAside';
 import CommonHeader from '../components/commonHeader';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store';
 
-const { Header, Sider, Content } = Layout;
-
+const { Content } = Layout;
 
 const Main = () => {
-    // const [collapsed, setCollapsed] = useState(false);
-    const {
-        token: { colorBgContainer, borderRadiusLG },
-    } = theme.useToken();
-
+    const collapsed = useSelector((state: RootState) => state.tab.isCollapse)
     return (
         <Layout className='main-container'>
-            <CommonAside />
+            <CommonAside collapsed={collapsed} />
             <Layout>
-                <CommonHeader />
+                <CommonHeader collapsed={collapsed} />
                 <Content
                     style={{
-                        margin: '24px 16px',
+                        margin: 0,
                         padding: 24,
                         minHeight: 280,
-                        background: colorBgContainer,
-                        borderRadius: borderRadiusLG,
                     }}
                 >
-                    Content
+                    <Outlet />
                 </Content>
             </Layout>
         </Layout>

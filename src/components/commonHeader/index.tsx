@@ -2,10 +2,15 @@ import React from "react";
 import './index.css';
 import { Button, Layout, Dropdown, Avatar } from 'antd';
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
+import { useDispatch } from 'react-redux'
+import { collapseMenu } from '../../store/reducers/tab'
 
 const { Header } = Layout;
-
-const CommonHeader = () => {
+// 定义组件的 Props 接口
+interface CommonHeaderProps {
+    collapsed: boolean;
+}
+const CommonHeader: React.FC<CommonHeaderProps> = ({ collapsed }) => {
     // 登出
     const logout = () => {
 
@@ -28,12 +33,18 @@ const CommonHeader = () => {
             ),
         }
     ]
+    // 创建dispatch
+    const dispatch = useDispatch()
+    // 点击展开收起
+    const setCollapsed = () => {
+        dispatch(collapseMenu())
+    }
     return (
         <Header className="header-container">
             <Button
                 type="text"
                 icon={<MenuFoldOutlined />}
-                // onClick={() => setCollapsed(!collapsed)}
+                onClick={() => setCollapsed()}
                 style={{
                     fontSize: '16px',
                     width: 64,
